@@ -1,8 +1,6 @@
 package log
 
-import (
-	"golang.org/x/net/context"
-)
+import "context"
 
 // Debugf formats its arguments according to the format, analogous to fmt.Printf,
 // and records the text as a log message at Debug level. The message will be associated
