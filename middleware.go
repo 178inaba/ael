@@ -88,6 +88,7 @@ func (m *LoggerMiddleware) Logger(next echo.HandlerFunc) echo.HandlerFunc {
 			Severity:  appLogger.maxSeverity,
 			HTTPRequest: &logging.HTTPRequest{
 				Request:      req,
+				RequestSize:  req.ContentLength,
 				Status:       resp.Status,
 				ResponseSize: resp.Size,
 				Latency:      end.Sub(start),
