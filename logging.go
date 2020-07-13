@@ -151,7 +151,7 @@ func (l *Logger) Panicj(j log.JSON) {
 }
 
 func (l *Logger) log(severity logging.Severity, payload interface{}) {
-	if l.level >= severityLogLevel[severity] {
+	if l.level > severityLogLevel[severity] {
 		return
 	}
 
