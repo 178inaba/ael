@@ -21,6 +21,7 @@ func (l *contextLogger) Logger() echo.Logger {
 	return l.logger
 }
 
+// LoggerMiddleware is appengine echo logger middleware.
 type LoggerMiddleware struct {
 	client *logging.Client
 
@@ -30,10 +31,13 @@ type LoggerMiddleware struct {
 	zone      string
 }
 
+// NewLoggerMiddleware returns appengine echo logger middleware.
 func NewLoggerMiddleware(client *logging.Client, moduleID, projectID, versionID, zone string) *LoggerMiddleware {
 	return &LoggerMiddleware{client: client, moduleID: moduleID, projectID: projectID, versionID: versionID, zone: zone}
 }
 
+// Logger is appengine echo logger middleware.
+// Set application logger to echo.Context and write request log.
 func (m *LoggerMiddleware) Logger(next echo.HandlerFunc) echo.HandlerFunc {
 	hf := &propagation.HTTPFormat{}
 
