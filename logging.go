@@ -22,7 +22,7 @@ var severityLogLevel = map[logging.Severity]log.Lvl{
 	logging.Alert:    7,
 }
 
-// Logger is cloud logging logger.
+// Logger is echo logger using cloud logging.
 type Logger struct {
 	logger *logging.Logger
 
@@ -33,7 +33,8 @@ type Logger struct {
 	maxSeverity logging.Severity
 }
 
-func New(logger *logging.Logger, trace, spanID string) *Logger {
+// NewLogger returns echo logger using cloud logging.
+func NewLogger(logger *logging.Logger, trace, spanID string) *Logger {
 	return &Logger{
 		logger: logger,
 		trace:  trace,
@@ -41,28 +42,42 @@ func New(logger *logging.Logger, trace, spanID string) *Logger {
 	}
 }
 
-func (l *Logger) Output() io.Writer     { return nil }
-func (l *Logger) SetOutput(w io.Writer) {}
-func (l *Logger) Prefix() string        { return "" }
-func (l *Logger) SetPrefix(p string)    {}
-func (l *Logger) SetHeader(h string)    {}
+// Output does nothing.
+func (l *Logger) Output() io.Writer { return nil }
 
+// SetOutput does nothing.
+func (l *Logger) SetOutput(w io.Writer) {}
+
+// Prefix does nothing.
+func (l *Logger) Prefix() string { return "" }
+
+// SetPrefix does nothing.
+func (l *Logger) SetPrefix(p string) {}
+
+// SetHeader does nothing.
+func (l *Logger) SetHeader(h string) {}
+
+// Level returns print log level.
 func (l *Logger) Level() log.Lvl {
 	return l.level
 }
 
+// SetLevel sets print log level.
 func (l *Logger) SetLevel(v log.Lvl) {
 	l.level = v
 }
 
+// Print prints i.
 func (l *Logger) Print(i ...interface{}) {
 	l.log(logging.Default, fmt.Sprint(i...))
 }
 
+// Printf prints format string.
 func (l *Logger) Printf(format string, args ...interface{}) {
 	l.log(logging.Default, fmt.Sprintf(format, args...))
 }
 
+// Printj prints j.
 func (l *Logger) Printj(j log.JSON) {
 	l.log(logging.Default, j)
 }

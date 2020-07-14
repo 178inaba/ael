@@ -71,7 +71,7 @@ func (m *LoggerMiddleware) Logger(next echo.HandlerFunc) echo.HandlerFunc {
 			spanID = sc.SpanID.String()
 		}
 
-		appLogger := New(m.applicationLogger, trace, spanID)
+		appLogger := NewLogger(m.applicationLogger, trace, spanID)
 		appLogger.SetLevel(m.logLevel)
 
 		start := time.Now()
