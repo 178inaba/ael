@@ -46,11 +46,9 @@ func NewLoggerMiddleware(client *logging.Client, logLevel log.Lvl, moduleID, pro
 			"zone":       zone,
 		},
 	})
-	reqLogger := client.Logger(fmt.Sprintf("%s_request", moduleID), opt)
-	appLogger := client.Logger(fmt.Sprintf("%s_application", moduleID), opt)
 	return &LoggerMiddleware{
-		requestLogger:     reqLogger,
-		applicationLogger: appLogger,
+		requestLogger:     client.Logger(fmt.Sprintf("%s_request", moduleID), opt),
+		applicationLogger: client.Logger(fmt.Sprintf("%s_application", moduleID), opt),
 		logLevel:          logLevel,
 		httpFormat:        &propagation.HTTPFormat{},
 		moduleID:          moduleID,
