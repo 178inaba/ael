@@ -179,14 +179,14 @@ func (l *Logger) log(severity logging.Severity, payload interface{}) {
 	l.logger.Log(logging.Entry{
 		Timestamp:    time.Now(),
 		Severity:     severity,
+		Payload:      payload,
 		Trace:        l.trace,
+		SpanID:       l.spanID,
 		TraceSampled: true,
 		SourceLocation: &logpb.LogEntrySourceLocation{
 			File:     file,
 			Line:     int64(line),
 			Function: f.Name(),
 		},
-		SpanID:  l.spanID,
-		Payload: payload,
 	})
 }
