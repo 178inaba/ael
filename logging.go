@@ -82,84 +82,102 @@ func (l *Logger) Printj(j log.JSON) {
 	l.log(logging.Default, j)
 }
 
+// Debug prints i to log level debug.
 func (l *Logger) Debug(i ...interface{}) {
 	l.log(logging.Debug, fmt.Sprint(i...))
 }
 
+// Debugf prints format string to log level debug.
 func (l *Logger) Debugf(format string, args ...interface{}) {
 	l.log(logging.Debug, fmt.Sprintf(format, args...))
 }
 
+// Debugj prints j to log level debug.
 func (l *Logger) Debugj(j log.JSON) {
 	l.log(logging.Debug, j)
 }
 
+// Info prints i to log level info.
 func (l *Logger) Info(i ...interface{}) {
 	l.log(logging.Info, fmt.Sprint(i...))
 }
 
+// Infof prints format string to log level info.
 func (l *Logger) Infof(format string, args ...interface{}) {
 	l.log(logging.Info, fmt.Sprintf(format, args...))
 }
 
+// Infoj prints j to log level info.
 func (l *Logger) Infoj(j log.JSON) {
 	l.log(logging.Info, j)
 }
 
+// Warn prints i to log level warning.
 func (l *Logger) Warn(i ...interface{}) {
 	l.log(logging.Warning, fmt.Sprint(i...))
 }
 
+// Warnf prints format string to log level warning.
 func (l *Logger) Warnf(format string, args ...interface{}) {
 	l.log(logging.Warning, fmt.Sprintf(format, args...))
 }
 
+// Warnj prints j to log level warning.
 func (l *Logger) Warnj(j log.JSON) {
 	l.log(logging.Warning, j)
 }
 
+// Error prints i to log level error.
 func (l *Logger) Error(i ...interface{}) {
 	l.log(logging.Error, fmt.Sprint(i...))
 }
 
+// Errorf prints format string to log level error.
 func (l *Logger) Errorf(format string, args ...interface{}) {
 	l.log(logging.Error, fmt.Sprintf(format, args...))
 }
 
+// Errorj prints j to log level error.
 func (l *Logger) Errorj(j log.JSON) {
 	l.log(logging.Error, j)
 }
 
+// Fatal prints i and exit 1.
 func (l *Logger) Fatal(i ...interface{}) {
 	l.log(logging.Critical, fmt.Sprint(i...))
 	l.logger.Flush()
 	os.Exit(1)
 }
 
+// Fatalf prints format string and exit 1.
 func (l *Logger) Fatalf(format string, args ...interface{}) {
 	l.log(logging.Critical, fmt.Sprintf(format, args...))
 	l.logger.Flush()
 	os.Exit(1)
 }
 
+// Fatalj prints j and exit 1.
 func (l *Logger) Fatalj(j log.JSON) {
 	l.log(logging.Critical, j)
 	l.logger.Flush()
 	os.Exit(1)
 }
 
+// Panic prints i and panic.
 func (l *Logger) Panic(i ...interface{}) {
 	s := fmt.Sprint(i...)
 	l.log(logging.Alert, s)
 	panic(s)
 }
 
+// Panicf prints format string and panic.
 func (l *Logger) Panicf(format string, args ...interface{}) {
 	s := fmt.Sprintf(format, args...)
 	l.log(logging.Alert, s)
 	panic(s)
 }
 
+// Panicj prints j and panic.
 func (l *Logger) Panicj(j log.JSON) {
 	l.log(logging.Alert, j)
 	panic(j)
