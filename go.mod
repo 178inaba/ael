@@ -1,4 +1,4 @@
-module github.com/178inaba/appengine-echo-logging
+module github.com/178inaba/ael
 
 go 1.14
 
