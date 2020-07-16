@@ -1,6 +1,7 @@
 package ael
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -74,6 +75,9 @@ func (m *LoggerMiddleware) Logger(next echo.HandlerFunc) echo.HandlerFunc {
 		appLogger := NewLogger(m.applicationLogger, trace, spanID)
 		appLogger.SetLevel(m.logLevel)
 
+		// Set logger to context.
+		c.SetRequest(req.Clone(contextWithLogger(req.Context(), appLogger)))
+
 		start := time.Now()
 		if err := next(&contextLogger{Context: c, logger: appLogger}); err != nil {
 			c.Error(err)
@@ -99,4 +103,25 @@ func (m *LoggerMiddleware) Logger(next echo.HandlerFunc) echo.HandlerFunc {
 
 		return nil
 	}
+}
+
+type contextKey string
+
+const loggerContextKey = "ael-logger"
+
+func contextWithLogger(ctx context.Context, logger *Logger) context.Context {
+	lck := contextKey(loggerContextKey)
+	return context.WithValue(ctx, lck, logger)
+}
+
+// GetLogger retrieves the logger from the context.
+// Use `github.com/labstack/gommon/log` if there is no logger in the context.
+func GetLogger(ctx context.Context) echo.Logger {
+	lck := contextKey(loggerContextKey)
+	logger, ok := ctx.Value(lck).(*Logger)
+	if ok {
+		return logger
+	}
+
+	return log.New("")
 }
