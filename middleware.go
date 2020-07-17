@@ -12,21 +12,10 @@ import (
 	mrpb "google.golang.org/genproto/googleapis/api/monitoredres"
 )
 
-type contextLogger struct {
-	echo.Context
-	logger echo.Logger
-}
-
-func (l *contextLogger) Logger() echo.Logger {
-	return l.logger
-}
-
 // LoggerMiddleware is appengine echo logger middleware.
 type LoggerMiddleware struct {
 	requestLogger     *logging.Logger
 	applicationLogger *logging.Logger
-
-	logLevel log.Lvl
 
 	httpFormat *propagation.HTTPFormat
 
@@ -37,7 +26,7 @@ type LoggerMiddleware struct {
 }
 
 // NewLoggerMiddleware returns appengine echo logger middleware.
-func NewLoggerMiddleware(client *logging.Client, logLevel log.Lvl, moduleID, projectID, versionID, zone string) *LoggerMiddleware {
+func NewLoggerMiddleware(client *logging.Client, moduleID, projectID, versionID, zone string) *LoggerMiddleware {
 	opt := logging.CommonResource(&mrpb.MonitoredResource{
 		Type: "gae_app",
 		Labels: map[string]string{
@@ -50,7 +39,6 @@ func NewLoggerMiddleware(client *logging.Client, logLevel log.Lvl, moduleID, pro
 	return &LoggerMiddleware{
 		requestLogger:     client.Logger(fmt.Sprintf("%s_request", moduleID), opt),
 		applicationLogger: client.Logger(fmt.Sprintf("%s_application", moduleID), opt),
-		logLevel:          logLevel,
 		httpFormat:        &propagation.HTTPFormat{},
 		moduleID:          moduleID,
 		projectID:         projectID,
@@ -73,13 +61,14 @@ func (m *LoggerMiddleware) Logger(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		appLogger := NewLogger(m.applicationLogger, trace, spanID)
-		appLogger.SetLevel(m.logLevel)
+		appLogger.SetLevel(c.Logger().Level())
+		c.SetLogger(appLogger)
 
 		// Set logger to context.
 		c.SetRequest(req.Clone(contextWithLogger(req.Context(), appLogger)))
 
 		start := time.Now()
-		if err := next(&contextLogger{Context: c, logger: appLogger}); err != nil {
+		if err := next(c); err != nil {
 			c.Error(err)
 		}
 		end := time.Now()
