@@ -29,4 +29,5 @@ install-tools: go-get-tools
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin v2.14.0
 
 go-get-tools:
-	go install golang.org/x/lint/golint golang.org/x/tools/cmd/goimports
+	go install golang.org/x/tools/cmd/goimports@latest
+	go install golang.org/x/lint/golint@latest
