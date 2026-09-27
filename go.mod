@@ -13,7 +13,7 @@ require (
 require (
 	cloud.google.com/go v0.45.1 // indirect
 	github.com/golang/groupcache v0.0.0-20190702054246-869f871628b6 // indirect
-	github.com/golang/protobuf v1.4.1 // indirect
+	github.com/golang/protobuf v1.5.0 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/googleapis/gax-go/v2 v2.0.5 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
@@ -30,5 +30,5 @@ require (
 	google.golang.org/api v0.10.0 // indirect
 	google.golang.org/appengine v1.6.2 // indirect
 	google.golang.org/grpc v1.27.0 // indirect
-	google.golang.org/protobuf v1.24.0 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 )
