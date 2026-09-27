@@ -1,0 +1,17 @@
+version: "2"
+
+linters:
+  exclusions:
+    presets:
+      - std-error-handling
+
+formatters:
+  enable:
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/178inaba/ael
+
+run:
+  timeout: 10m
