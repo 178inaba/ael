@@ -1,21 +1,22 @@
-name: Lint and Test
+name: CI
 
 on: push
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
-    name: Lint ${{ matrix.go }}
+    name: Lint
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        go: [ '1.13', '1.14' ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7.0.1
       - name: Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v7.0.0
         with:
-          go-version: ${{ matrix.go }}
+          go-version-file: go.mod
       - name: Install lint tools
         run: make -s go-get-tools
       - name: Run Gofmt diff
@@ -24,30 +25,20 @@ jobs:
         run: make -s lint
       - name: Run Vet
         run: make -s vet
-
-  golangci-lint:
-    name: GolangCI Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: GolangCI Lint
-        uses: golangci/golangci-lint-action@v1
+        uses: golangci/golangci-lint-action@v9
         with:
-          version: v1.27
+          version: v2.14
 
   test:
-    name: Test ${{ matrix.go }}
+    name: Test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        go: [ '1.13', '1.14' ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v7.0.1
       - name: Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v7.0.0
         with:
-          go-version: ${{ matrix.go }}
+          go-version-file: go.mod
       - name: Test
         run: make -s test
