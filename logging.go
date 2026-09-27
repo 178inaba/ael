@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"cloud.google.com/go/logging"
+	logpb "cloud.google.com/go/logging/apiv2/loggingpb"
 	"github.com/labstack/gommon/log"
-	logpb "google.golang.org/genproto/googleapis/logging/v2"
 )
 
 var severityLogLevel = map[logging.Severity]log.Lvl{
