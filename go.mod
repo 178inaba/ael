@@ -4,7 +4,7 @@ go 1.27.0
 
 require (
 	cloud.google.com/go/logging v1.19.1
-	contrib.go.opencensus.io/exporter/stackdriver v0.13.2
+	contrib.go.opencensus.io/exporter/stackdriver v0.13.14
 	github.com/labstack/echo/v4 v4.15.4
 	github.com/labstack/gommon v0.5.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20260630182238-925bb5da69e7
